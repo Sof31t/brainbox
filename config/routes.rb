@@ -1,5 +1,5 @@
 SampleApp::Application.routes.draw do
-	get "users/new"
+	resources :users
 	# Definition of the root page
 	root 'static_pages#home'
 	# Definition of the differents routes
