@@ -3,6 +3,16 @@ class UsersController < ApplicationController
 		@user = User.new
   end
 
+  	def index
+  		@user = User.find(:all)
+
+  		respond_to do |format|
+  			format.html
+  			format.xml { render :xml => @user.to_xml }
+   			format.json { render :json => @user.to_json }
+  		end
+  	end
+
 	def create
 		@user=User.new(user_params)
 		if @user.save
