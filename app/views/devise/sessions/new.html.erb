@@ -1,29 +1,47 @@
-<div class="col-md-4 col-md-offset-4 well signin">
-	<h2>Sign in</h2>
+	<% if request.subdomain.present? && request.subdomain !='www'%>
+
+	<div class="col-md-6 col-md-offset-2 well signin">
+
+	<h2><%= request.subdomain.capitalize + "'s" %> Brainbox </h2>
 
 	<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
 		<%= form_group_for f, :email, label: false do  %>
-			<div class='input-group'>
+			<div class='input-group col-lg-12'>
 	 			<%= f.email_field :email, class: 'form-control input-lg', placeholder: 'Email' %>
 	 			<span class='input-group-addon glyphicon glyphicon-user'></span>
 	 		</div>
 	 	<% end %>
 
 		<%= form_group_for f, :password, label: false do  %>
-			<div class='input-group'>
+			<div class='input-group col-lg-12'>
 	 			<%= f.password_field :password, class: 'form-control input-lg', placeholder: 'Password' %>
 	 			<span class='input-group-addon glyphicon glyphicon-lock'></span>
 	 		</div>
 	 	<% end %>	 	
 
 	  <% if devise_mapping.rememberable? -%>
-	    <div class="form-group"><%= f.check_box :remember_me %> &nbsp; <%= f.label :remember_me %></div>
+	    <div class="form-group pull-right"><%= f.check_box :remember_me %> &nbsp; <%= f.label :remember_me %></div>
 	  <% end -%>
 
 	  <div><%= f.submit "Sign in", class: 'btn btn-primary btn-block btn-lg' %></div>
 	<% end %>
 
 	<%= flash_messages layout_flash: false %>
+	
+	<div class="pull-right">
+		<%= render "devise/shared/links" %>
+	</div>
 
-	<%= render "devise/shared/links" %>
 </div>
+
+	<% else %>
+
+	<div class="jumbotron">
+		<div class="alert alert-danger">
+			<h1> BrainBox inexistante </h1>		
+		</div>
+		<h3> Pour partager vos idées : </h3>
+		<p><%= link_to "Create Account", new_account_path, class: "btn btn-primary btn-lg" %></p>
+	</div>
+
+	<% end %>
