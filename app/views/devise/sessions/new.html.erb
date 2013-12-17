@@ -1,5 +1,4 @@
-	<% if request.subdomain.present? && request.subdomain !='www'%>
-
+	<% if request.subdomain.present? && request.subdomain !='www' && Account.where(subdomain: request.subdomain).exists? %>
 	<div class="col-md-6 col-md-offset-2 well signin">
 
 	<h2><%= request.subdomain.capitalize + "'s" %> Brainbox </h2>
@@ -20,8 +19,8 @@
 	 	<% end %>	 	
 
 	  <% if devise_mapping.rememberable? -%>
-	    <div class="form-group pull-right"><%= f.check_box :remember_me %> &nbsp; <%= f.label :remember_me %></div>
-	  <% end -%>
+	    <div class="form-group pull-right"><%= f.check_box :remember_me %> &nbsp; <%= f.label :remember_me %> </div> <br/> <br/>
+	  <% end %>
 
 	  <div><%= f.submit "Sign in", class: 'btn btn-primary btn-block btn-lg' %></div>
 	<% end %>
@@ -44,4 +43,4 @@
 		<p><%= link_to "Create Account", new_account_path, class: "btn btn-primary btn-lg" %></p>
 	</div>
 
-	<% end %>
+<% end %>

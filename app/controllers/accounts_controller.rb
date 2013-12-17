@@ -7,19 +7,19 @@ class AccountsController < ApplicationController
 	def create		
 		@account = Account.new(account_params)
 		if @account.save
-			redirect_to root_path, notice: 'Signed up successfully'
+			redirect_to :account=>'home', notice: 'Signed up successfully'
 		else
 			render action: 'new'
 		end
 	end
 
-	def show
+	def index
 	end
 	
-	def addUser
+	def add_user
 	end
 
-	def removeUser
+	def remove_user
 	end
 
 
