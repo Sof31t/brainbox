@@ -1,6 +1,6 @@
 class Account < ActiveRecord::Base
 	RESTRICTED_SUBDOMAINS = %w(www)
-	SUBSCRIPTION_TYPES = %w(free basic premium golden platinium lajauge)
+	SUBSCRIPTION_TYPES = %w(free basic premium)
 
 	belongs_to :owner, class_name: 'User' #specifié car noms différents, un compte appartient a un owner, admin
 
