@@ -1,10 +1,22 @@
 class Account < ActiveRecord::Base
+
+	#
+	# Constantes
+	#
+
 	RESTRICTED_SUBDOMAINS = %w(www)
 	SUBSCRIPTION_TYPES = %w(free basic premium)
 
-	belongs_to :owner, class_name: 'User' #specifié car noms différents, un compte appartient a un owner, admin
+	#
+	# Associations
+	#
 
-	has_many :user #et possède plusieurs utilisateurs
+	has_one :owner, class_name: 'User' 
+	has_many :users
+
+	#
+	# Validations
+	#
 
 	validates :owner, presence: true
 
@@ -16,9 +28,21 @@ class Account < ActiveRecord::Base
 	validates :subscription_type, 	presence: true,
 									 inclusion: { in: SUBSCRIPTION_TYPES, messages: 'not a valid subscription_type' }
 
-	accepts_nested_attributes_for :owner
 
-	before_validation :downcase_subdomain
+	#
+	# Before callbacks
+	#		
+
+	before_validation :downcase_subdomain		
+
+	#
+	# Accepts_nested_attributes 
+	#			 
+	
+	accepts_nested_attributes_for :owner
+	accepts_nested_attributes_for :users
+
+
 
 private
 	def downcase_subdomain

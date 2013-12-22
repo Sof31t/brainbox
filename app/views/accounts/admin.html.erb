@@ -1,0 +1,32 @@
+<div class="col-md-6 col-md-offset-3 panel panel-default">
+	<div class="panel-body">		
+			<h1> Admin Page : Gérez votre BrainBox ! <br></br></h1>	
+
+			<%= form_for @user, url: {action: "add_user"}, html: {class: "nifty_form"} do |f| %>	
+					<%= form_group_for f, :name do %>
+						<%= f.text_field :name, class: 'form-control' %>
+					<%end %>
+					<%= form_group_for f, :email do %>
+						<%= f.text_field :email, class: 'form-control' %>
+					<%end %>
+					<%= form_group_for f, :password do %>
+						<%= f.password_field :password, class: 'form-control' %>
+					<%end %>
+					<%= form_group_for f, :password_confirmation do %>
+						<%= f.password_field :password_confirmation, class: 'form-control' %>
+					<%end %>
+					<%= f.hidden_field :role, :value => "user" %>
+					<%= f.hidden_field :account_id, :value => Account.where(subdomain: request.subdomain).take.id %>
+					<%= f.submit class:'btn btn-primary' %>				
+			<% end %>
+
+	</div>
+</div>
+<div class="pull-right">
+	<h2> Users </h2>
+	<ul class="list-group">
+		<% @users.each do |u| %>
+	  	<li class="list-group-item"><%= u.name%>  <%= u.email%> </li>
+	 	<% end %>
+	</ul>
+</div>

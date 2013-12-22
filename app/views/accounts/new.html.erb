@@ -16,6 +16,8 @@
 				<%= form_group_for o, :password_confirmation do %>
 					<%= o.password_field :password_confirmation, class: 'form-control' %>
 				<%end %>
+
+				<%= o.hidden_field :role, :value => "admin" %>
 			<% end %>
 
 			<%= form_group_for f, :subdomain do %>
@@ -36,7 +38,8 @@
 					</div>
 				</div>
 			<% end %>
-
+			
+			
 			<%= f.submit class:'btn btn-primary' %>
 	<% end %>
 	</div>

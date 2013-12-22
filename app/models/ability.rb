@@ -1,16 +1,15 @@
 class Ability
-  include CanCan::Ability
-
+include CanCan::Ability
+ 
+ #
+ # Ici sont définies les autorisations, les accés
+ #
   def initialize(user)
-    user ||= User.new
-    send user.role
-  end
+    if user.role=='admin' 
+      can :manage, :all
+   elsif user.role=='user'
+      cannot :admin, Account    
+ 	 end
+ end
 
-  def admin
-    can :manage, :all
-  end
-
-  def user
-   # can [:create, :read, :update], [Article, Dossier]
-  end
 end
