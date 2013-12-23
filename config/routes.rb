@@ -26,9 +26,10 @@ Timetracker::Application.routes.draw do
 			#match '/delete_brainbox', to: 'brainboxes#delete_brainbox', via: 'delete'
 		end	
 		#match '/accounts/:id', to: 'accounts#new', via: 'get'
-		resources :accounts
-		resources :users
-		resources :brainboxes
+		resources :accounts,  only: [:index, :new, :create, :show]
+		resources :users,  only: [:destroy]
+		resources :brainboxes,  only: [:destroy]
+		resources :ideas,  only: [:show]
 	end
 
  

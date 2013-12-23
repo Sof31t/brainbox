@@ -22,8 +22,7 @@
 	    <div class="form-group pull-right"><%= f.check_box :remember_me %> &nbsp; <%= f.label :remember_me %> </div> <br/> <br/>
 	  <% end %>
 
-	  <%= f.hidden_field :account_id, :value => Account.where(subdomain: request.subdomain).first.id %>
-
+	
 	  <div><%= f.submit "Sign in", class: 'btn btn-primary btn-block btn-lg' %></div>
 	<% end %>
 

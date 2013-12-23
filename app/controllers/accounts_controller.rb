@@ -60,18 +60,20 @@ class AccountsController < ApplicationController
 	def add_user		
 		@current_account.users.build(user_params)
 		if @current_account.save
-			redirect_to admin_path, notice: "User added!"
+			redirect_to admin_path , notice: "Utilisateur créé"
 		else
-			redirect_to admin_path, alert: "Error!"
+			redirect_to admin_path, alert: "Erreur lors de la création de l'utilisateur"
+			#flash[:errors]=@current_account.errors
+			#render action: 'adm'
 		end
 	end
 
 	def add_bb
 		@bb = @current_account.brainboxes.build(bb_params)
 		if @current_account.save
-			redirect_to admin_path, notice: "BB created!"
+			redirect_to admin_path, notice: "BrainBox créée"
 		else
-			redirect_to admin_path, alert: "Error!"
+			redirect_to admin_path, alert: "Erreur lors de la création de la BrainBox"
 		end	
 	end
 

@@ -10,6 +10,9 @@ class Brainbox < ActiveRecord::Base
 	# => Validations
 	#
 	validates :name, presence: true
+	validates_uniqueness_of :name,	 	:scope => :account_id,
+  										:case_sensitive => false
 	validates :descr, presence: true
+
 
 end
