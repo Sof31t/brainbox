@@ -79,7 +79,7 @@ class AccountsController < ApplicationController
 
 	private 
 		def account_params
-			params.require(:account).permit(:subdomain, :subscription_type, owner_attributes: [:name, :role, :email, :password, :password_confirmation], user_attributes: [:name, :role, :email, :password, :password_confirmation])
+			params.require(:account).permit(:subdomain, :subscription_type, owner_attributes: [:name, :role, :email, :password, :password_confirmation])
 		end
 
 	private

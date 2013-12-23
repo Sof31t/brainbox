@@ -1,4 +1,9 @@
 class IdeasController < ApplicationController
+	
+	def initialize
+		self.thumbs_up=0
+		self.thumbs_down=0
+	end
 
 	def destroy
 		 @deleted_idea = Idea.find(params[:id])

@@ -16,9 +16,10 @@
 			<div class='panel-body'>
 				<ul class='nav nav-pills nav-stacked'>
 				<% bb.ideas.each do |i| %>
-					<li><a href=<%=raw "\"#{idea_path(bb)}\""%>>
-						<%= i.name %>
-					</a></li>
+					<li><a href=<%=raw "\"#{idea_path(bb)}\""%>><%= i.name %></a>
+						<span>glyphicon glyphicon-thumbs-up</span><span class="badge pull-right"><%= bb.ideas.size %></span>
+						<span>glyphicon glyphicon-thumbs-down</span><span class="badge pull-right"><%= bb.ideas.size %></span>  
+					</li>
 				<% end %>
 				</ul>
 			</div>
