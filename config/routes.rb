@@ -20,11 +20,14 @@ Timetracker::Application.routes.draw do
 			match '/admin', to: 'accounts#admin', via: 'get'
 			match '/add_user', to: 'accounts#add_user', via: 'post'
 			match '/add_user', to: 'accounts#add_user', via: 'post'
-			match '/delete_user', to: 'users#delete_user', via: 'delete'
+			match '/add_bb', to: 'accounts#add_bb', via: 'post'
+			#match '/delete_user', to: 'users#delete_user', via: 'delete'
+			#match '/delete_brainbox', to: 'brainboxes#delete_brainbox', via: 'delete'
 		end	
 		#match '/accounts/:id', to: 'accounts#new', via: 'get'
 		resources :accounts
 		resources :users
+		resources :brainboxes
 	end
 
  

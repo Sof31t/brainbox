@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
 	def destroy
-		 @deleted_user = User.find(params[:id])
+		@deleted_user = User.find(params[:id])
  		 @deleted_user.destroy
  		 redirect_to admin_path, notice: "Utilisateur supprimé !"
 	end

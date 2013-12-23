@@ -1,9 +1,19 @@
 class AccountsController < ApplicationController
+	#
+	# => TODO : un meme email doit pouvoir être utiliser sur deux domaines différents
+	#
+
 
 	# Requiert l'identification sauf pour certaines méthodes
 	before_filter :authenticate_user!, except: [:new, :create]
-	authorize_resource :only => [:admin, :add_user, :remove_user,]
+	authorize_resource :only => [:admin, :add_user, :remove_user]
 
+	before_filter :get_current_account, :only =>[:show, :admin, :add_user, :add_bb]
+
+
+	def get_current_account
+		@current_account = Account.where(subdomain: request.subdomain).take
+	end
 
 	def new
 		#Création du compte
@@ -24,39 +34,56 @@ class AccountsController < ApplicationController
 	end
 
 	def show
-		@account = Account.where(subdomain: request.subdomain).take
+		#@account = Account.where(subdomain: request.subdomain).take
 	end
 	
 	def index
 	end
 	
 	def admin
-		@user = User.new
-		@current_account = Account.where(subdomain: request.subdomain).take
-		@users = User.where(account_id: @current_account.id).all
+		#User form
+		@user = User.new		
 		@user = @current_account.users.build
+		#Liste des users
+		@users = User.where(account_id: @current_account.id).all
+		#BB form
+		@bb = Brainbox.new
+		@bb = @current_account.brainboxes.build
+		#Liste des bbs
+		@bbs = Brainbox.where(account_id: @current_account.id).all
 	end
 
-	def add_user
-		@curr_account = Account.where(subdomain: request.subdomain).take
-		if @curr_account.users.create(user_params)
+	def add_user		
+		@current_account.users.build(user_params)
+		if @current_account.save
 			redirect_to admin_path, notice: "User added!"
 		else
 			redirect_to admin_path, alert: "Error!"
 		end
-		# if @current_account.save		
-		# 	redirect_to account_path, notice: "Users added!"
-		# else
-		# 	render action: 'admin'
-		# end
+	end
+
+	def add_bb
+		@bb = @current_account.brainboxes.build(bb_params)
+		if @current_account.save
+			redirect_to admin_path, notice: "BB created!"
+		else
+			redirect_to admin_path, alert: "Error!"
+		end	
 	end
 
 	private 
 		def account_params
 			params.require(:account).permit(:subdomain, :subscription_type, owner_attributes: [:name, :role, :email, :password, :password_confirmation], user_attributes: [:name, :role, :email, :password, :password_confirmation])
 		end
+
+	private
 		def user_params
 			params.require(:user).permit(:name, :role, :email, :password, :password_confirmation)
+		end
+
+	private
+		def bb_params
+			params.require(:brainbox).permit(:name, :descr)
 		end
 
 	

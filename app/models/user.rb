@@ -26,13 +26,12 @@ class User < ActiveRecord::Base
  	#
  	# Validations (TODO : Voir comment envoyer des messages paramètrables)
  	#
- 	validates :name, 	presence: true
+ 	validates :name, 	presence:  { :message => "Name required" }
   	validates :role, 	presence: true,
-  					 	inclusion: { in: ROLES, messages: 'not a valid subscription_type' }  	
+  					 	inclusion: { in: ROLES, messages: 'not a valid role' }  	
   	validates_uniqueness_of :email,	 :scope => :account_id,
   									 :case_sensitive => false
-	validates_format_of :email,	 	:with  => Devise.email_regexp, 
-									:allow_blank => true, :if => :email_changed?
+	validates_format_of :email,	 	:with  => Devise.email_regexp
 	validates_presence_of   :password, :on=>:create
 	validates_confirmation_of   :password, :on=>:create
 	validates_length_of :password, :within => Devise.password_length, :allow_blank => true

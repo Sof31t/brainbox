@@ -2,21 +2,8 @@
 
 	<div class="col-md-12">
 	<div class="jumbotron">
-		<h1> Page Accueil <%=@account.subdomain%> <br></br></h1>	
-		<h3> Bienvenue <%= current_user.name %>	 
-		<ul class="nav nav-tabs">
- 			<li class="active"><a href="#">BrainBoxes</a></li>
-  			<li><a href="#">Settings</a></li>
-  			<li class="dropdown">
-			    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-			      Menu <span class="caret"></span>
-			    </a>
-			    <ul class="dropdown-menu">
-			      <li><a href="#">Profil</a></li>
-			      <li><a href="#">Mes Idées</a></li>
-			    </ul>
-			 </li>
-		</ul>
+		<h1> Page Accueil <%=@current_account.subdomain.capitalize%> <%= @current_account.subscription_type.capitalize %> <br></br></h1>	
+		<h3> Bienvenue <%= current_user.name %>			
 	</div>
 </div>
 
