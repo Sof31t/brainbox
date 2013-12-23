@@ -21,6 +21,7 @@ Timetracker::Application.routes.draw do
 			match '/add_user', to: 'accounts#add_user', via: 'post'
 			match '/add_user', to: 'accounts#add_user', via: 'post'
 			match '/add_bb', to: 'accounts#add_bb', via: 'post'
+			match '/add_idea', to: 'brainboxes#add_idea', via: 'post'
 			#match '/delete_user', to: 'users#delete_user', via: 'delete'
 			#match '/delete_brainbox', to: 'brainboxes#delete_brainbox', via: 'delete'
 		end	

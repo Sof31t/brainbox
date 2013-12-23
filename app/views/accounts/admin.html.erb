@@ -61,7 +61,7 @@
 	<ul  class="nav nav-tabs">
 		<% @bbs.each do |bb| %>
 	  		<li class="list-group-item col-md-12">
-	  			<span class= "glyphicon glyphicon-user"></span>
+	  			<span class= " glyphicon glyphicon-inbox"></span>
 	  			<%= bb.name %>
 	  			<div style="float:right;">
 	  					<%= button_to "Supprimer", bb, :method=>:delete , :class=>:delete_brainbox,  class: "pull-right" %>

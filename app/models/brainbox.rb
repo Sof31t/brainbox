@@ -1,8 +1,15 @@
 class Brainbox < ActiveRecord::Base
 
-belongs_to :account
+	#
+	# => Associations
+	#
+	belongs_to :account
+	has_many :ideas
 
-validates :name, presence: true
-validates :descr, presence: true
+	#
+	# => Validations
+	#
+	validates :name, presence: true
+	validates :descr, presence: true
 
 end

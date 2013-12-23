@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131223110638) do
+ActiveRecord::Schema.define(version: 20131223131444) do
 
   create_table "accounts", force: true do |t|
     t.string   "subdomain"
@@ -26,6 +26,14 @@ ActiveRecord::Schema.define(version: 20131223110638) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "account_id"
+  end
+
+  create_table "ideas", force: true do |t|
+    t.string   "name"
+    t.string   "content"
+    t.integer  "brainbox_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

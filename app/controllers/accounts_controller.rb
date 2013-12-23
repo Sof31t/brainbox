@@ -1,6 +1,7 @@
 class AccountsController < ApplicationController
 	#
 	# => TODO : un meme email doit pouvoir être utiliser sur deux domaines différents
+	# => Sécurité : enlever le rôle de l'hidden field et le définir à l'interieur du contrôleur
 	#
 
 
@@ -35,6 +36,9 @@ class AccountsController < ApplicationController
 
 	def show
 		#@account = Account.where(subdomain: request.subdomain).take
+		@bbs = Brainbox.where(account_id: @current_account.id)
+		#Idea form
+		@idea = Idea.new
 	end
 	
 	def index
@@ -50,7 +54,7 @@ class AccountsController < ApplicationController
 		@bb = Brainbox.new
 		@bb = @current_account.brainboxes.build
 		#Liste des bbs
-		@bbs = Brainbox.where(account_id: @current_account.id).all
+		@bbs = Brainbox.where(account_id: @current_account.id).all		
 	end
 
 	def add_user		

@@ -1,11 +1,64 @@
 <% if user_signed_in? %>
 
 	<div class="col-md-12">
-	<div class="jumbotron">
-		<h1> Page Accueil <%=@current_account.subdomain.capitalize%> <%= @current_account.subscription_type.capitalize %> <br></br></h1>	
-		<h3> Bienvenue <%= current_user.name %>			
+		<div class="jumbotron">
+			<h1> <%=@current_account.subdomain.capitalize%>'s Brainbox </h1>								
+		</div>
 	</div>
-</div>
+	<% @bbs.each do |bb| %>
+		<div class="panel panel-default col-md-4">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+		  			<span class= "glyphicon glyphicon-inbox"></span>
+		  			<%= bb.name %>	<span class="badge pull-right"><%= bb.ideas.size %></span> 					
+	  			</h3>
+			</div>
+			<div class='panel-body'>
+				<ul class='nav nav-pills nav-stacked'>
+				<% bb.ideas.each do |i| %>
+					<li><a href="#">
+						<%= i.name %>
+					</a></li>
+				<% end %>
+				</ul>
+			</div>
+	  		<div class="panel-footer">
+					<button class="btn btn-primary btn-sm" data-toggle="modal" data-target=<%=raw "\"#modal#{bb.id}\""%>>
+		 		 			Add idea
+					</button>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id=<%=raw "\"modal#{bb.id}\""%> tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 	<div class="modal-dialog">
+		  		<div class="modal-content">
+		    		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		       			<h4 class="modal-title" id="myModalLabel">Create Idea</h4>
+		     		 </div>
+			      	<div class="modal-body">
+			        <%= form_for @idea, url: {action: "add_idea", controller: "brainboxes"}, html: {class: "nifty_form"} do |f| %>	
+						<%= form_group_for f, :name do %>
+							<%= f.text_field :name, class: 'form-control' %>
+						<%end %>
+						<%= form_group_for f, :content do %>
+							<%= f.text_area :content, :cols => '10', :rows => '10', class: 'form-control' %>
+						<%end %>					
+						<%= f.hidden_field :brainbox_id, :value => bb.id %>						
+			      	</div>
+			      	<div class="modal-footer">
+			        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        	<%= f.submit class:'btn btn-primary' %>				
+					<% end %>
+			     	</div>
+		   		</div><!-- /.modal-content -->
+		  	</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+	<%end%>
+
+
 
 <% else %>
 		<div class="jumbotron">
