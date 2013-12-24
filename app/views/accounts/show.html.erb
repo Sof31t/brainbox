@@ -1,64 +1,93 @@
 <% if user_signed_in? %>
 
-	<div class="col-md-12">
-		<div class="jumbotron">
-			<h1> <%=@current_account.subdomain.capitalize%>'s Brainbox </h1>								
-		</div>
+<div class='container'>
+	<div class='row'>
+		<!-- side bar
+        <div class="col-md-3 col-sm-4 sidebar">
+            <ul class="nav nav-stacked nav-pills">
+            	<li><a href="#">Menu1</a></li>
+				<li><a href="#">Menu1</a></li>
+				<li><a href="#">Menu1</a></li>
+				<li><a href="#">Menu1</a></li>
+				<li><a href="#">Menu1</a></li>
+				<li><a href="#">Menu1</a></li>
+				<li><a href="#">Menu1</a></li>
+				<li><a href="#">Menu1</a></li>
+            </ul>
+        </div>
+    	-->
+    	<div class="col-lg-12 text-center">
+            <h2><h1> Bienvenue sur l'espace Brainbox de <%=@current_account.subdomain.capitalize%></h1> </h2>
+            <p> Cliquez sur le nom d'une BrainBox pour faire apparaitre son contenu & ajouter des idées !</p>
+            <hr>
+          </div>
+
+		<div class="panel-group col-md-12" id="accordion">
+		<% @bbs.each do |bb| %>
+			<div class="panel panel-default " style='margin: 20px;'>
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion" href=<%=raw "\"#collapse#{bb.id}\""%>>
+	         				<span class= "glyphicon glyphicon-inbox"></span>
+				  			<%= bb.name %>
+				  			<span class="badge pull-right"><%= bb.ideas.size %></span> 
+	       				</a>			  								
+		  			</h3>
+				</div>
+				<div id=<%=raw "\"collapse#{bb.id}\""%> class="panel-collapse collapse">
+					<div class='panel-body'>
+						<ul class='nav nav-pills nav-stacked'>
+						<% bb.ideas.each do |i| %>
+							<li><a href=<%=raw "\"#{idea_path(bb)}\""%> style:'display: inline'>				
+							<%= button_to '#', class:"btn  btn-default btn-sm pull-right"	do%>
+								<span class='glyphicon glyphicon-thumbs-down'> 42 </span> 
+							<%end%>						 
+							<%= button_to '#', class:"btn  btn-default btn-sm pull-right"	do%>
+								<span class='glyphicon glyphicon-thumbs-up '> 42 </span> 
+							<%end%>
+							<%= i.name %></a>	
+							</li>
+						<% end %>
+						</ul>
+					</div>
+			  		<div class="panel-footer">
+							<button class="btn btn-default btn-sm" data-toggle="modal" data-target=<%=raw "\"#modal#{bb.id}\""%>>
+				 		 			Add idea
+							</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal -->
+			<div class="modal fade" id=<%=raw "\"modal#{bb.id}\""%> tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">nli
+			 	<div class="modal-dialog">
+			  		<div class="modal-content">
+			    		<div class="modal-header">
+			        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			       			<h4 class="modal-title" id="myModalLabel">Create Idea</h4>
+			     		 </div>
+				      	<div class="modal-body">
+				        <%= form_for @idea, url: {action: "add_idea", controller: "brainboxes"}, html: {class: "nifty_form"} do |f| %>	
+							<%= form_group_for f, :name do %>
+								<%= f.text_field :name, class: 'form-control' %>
+							<%end %>
+							<%= form_group_for f, :content do %>
+								<%= f.text_area :content, :cols => '10', :rows => '10', class: 'form-control' %>
+							<%end %>					
+							<%= f.hidden_field :brainbox_id, :value => bb.id %>						
+				      	</div>
+				      	<div class="modal-footer">
+				        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        	<%= f.submit class:'btn btn-default' %>				
+						<% end %>
+				     	</div>
+			   		</div><!-- /.modal-content -->
+			  	</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+		<%end%>
 	</div>
-	<% @bbs.each do |bb| %>
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">
-		  			<span class= "glyphicon glyphicon-inbox"></span>
-		  			<%= bb.name %>	<span class="badge pull-right"><%= bb.ideas.size %></span> 					
-	  			</h3>
-			</div>
-			<div class='panel-body'>
-				<ul class='nav nav-pills nav-stacked'>
-				<% bb.ideas.each do |i| %>
-					<li><a href=<%=raw "\"#{idea_path(bb)}\""%>><%= i.name %></a>
-						<span>glyphicon glyphicon-thumbs-up</span><span class="badge pull-right"><%= bb.ideas.size %></span>
-						<span>glyphicon glyphicon-thumbs-down</span><span class="badge pull-right"><%= bb.ideas.size %></span>  
-					</li>
-				<% end %>
-				</ul>
-			</div>
-	  		<div class="panel-footer">
-					<button class="btn btn-primary btn-sm" data-toggle="modal" data-target=<%=raw "\"#modal#{bb.id}\""%>>
-		 		 			Add idea
-					</button>
-			</div>
-		</div>
-
-		<!-- Modal -->
-		<div class="modal fade" id=<%=raw "\"modal#{bb.id}\""%> tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		 	<div class="modal-dialog">
-		  		<div class="modal-content">
-		    		<div class="modal-header">
-		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		       			<h4 class="modal-title" id="myModalLabel">Create Idea</h4>
-		     		 </div>
-			      	<div class="modal-body">
-			        <%= form_for @idea, url: {action: "add_idea", controller: "brainboxes"}, html: {class: "nifty_form"} do |f| %>	
-						<%= form_group_for f, :name do %>
-							<%= f.text_field :name, class: 'form-control' %>
-						<%end %>
-						<%= form_group_for f, :content do %>
-							<%= f.text_area :content, :cols => '10', :rows => '10', class: 'form-control' %>
-						<%end %>					
-						<%= f.hidden_field :brainbox_id, :value => bb.id %>						
-			      	</div>
-			      	<div class="modal-footer">
-			        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        	<%= f.submit class:'btn btn-primary' %>				
-					<% end %>
-			     	</div>
-		   		</div><!-- /.modal-content -->
-		  	</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
-
-	<%end%>
-
+	</div>
+</div>
 
 <% else %>
 		<div class="jumbotron">
@@ -66,6 +95,6 @@
 				<h2> Vous n'êtes pas identifié ! </h2>		
 			</div>
 			<h3> Pour vous identifier : </h3>
-			<p><%= link_to "Sign-in", root_path, class: "btn btn-primary btn-lg" %></p>
+			<p><%= link_to "Sign-in", root_path, class: "btn btn-default btn-lg" %></p>
 		</div>
 <% end %>

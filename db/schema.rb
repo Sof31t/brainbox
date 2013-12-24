@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131223182411) do
+ActiveRecord::Schema.define(version: 20131224162544) do
 
   create_table "accounts", force: true do |t|
     t.string   "subdomain"
@@ -34,8 +34,7 @@ ActiveRecord::Schema.define(version: 20131223182411) do
     t.integer  "brainbox_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "thumbs_up"
-    t.integer  "thumbs_down"
+    t.integer  "account_id"
   end
 
   create_table "users", force: true do |t|

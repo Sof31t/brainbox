@@ -9,7 +9,9 @@ class BrainboxesController < ApplicationController
 
 	def add_idea
 		@brainbox = Brainbox.where(id: idea_params[:brainbox_id]).take
-		@brainbox.ideas.build(idea_params)
+		parameters = idea_params
+		parameters[:account_id]=@brainbox.account_id
+		@brainbox.ideas.build(parameters)
 		if @brainbox.save
 			redirect_to root_path, notice: "Idée Ajoutée!"
 		else
