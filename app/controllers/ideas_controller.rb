@@ -1,8 +1,6 @@
 class IdeasController < ApplicationController
 	
 	def initialize
-		self.thumbs_up=0
-		self.thumbs_down=0
 	end
 
 	def destroy
@@ -10,6 +8,20 @@ class IdeasController < ApplicationController
  		 @deleted_idea.destroy
  		 redirect_to admin_path, notice: "Idée supprimé !"
  		 #Supprimer les idées
+	end
+
+	def add_thumbs_up
+		@idea = Idea.where(id=params[:idea_id]).take
+		@user = User.where(id=params[:user_id]).take
+		@user.vote_for(@idea);
+		redirect_to root_path
+	end
+
+	def add_thumbs_down
+		@idea = Idea.where(id=params[:idea_id]).take
+		@user = User.where(id=params[:user_id]).take
+		@user.vote_against(@idea);
+		redirect_to root_path
 	end
 
 	private 

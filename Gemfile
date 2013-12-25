@@ -11,6 +11,7 @@ gem 'devise', '~> 3.1.0'
 
 gem 'anjlab-bootstrap-rails', '~> 3.0.0', :require => 'bootstrap-rails'
 
+gem 'thumbs_up'
 gem 'pry'
 
 group :development, :test do

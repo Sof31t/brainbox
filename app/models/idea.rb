@@ -5,6 +5,9 @@ class Idea < ActiveRecord::Base
 	#
 	belongs_to :brainbox
 
+	# Thumbsup Gem 
+	acts_as_voteable
+
 	#
 	# => Validations
 	#

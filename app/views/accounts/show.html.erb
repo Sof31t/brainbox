@@ -38,14 +38,13 @@
 					<div class='panel-body'>
 						<ul class='nav nav-pills nav-stacked'>
 						<% bb.ideas.each do |i| %>
-							<li><a href=<%=raw "\"#{idea_path(bb)}\""%> style:'display: inline'>				
-							<%= button_to '#', class:"btn  btn-default btn-sm pull-right"	do%>
-								<span class='glyphicon glyphicon-thumbs-down'> 42 </span> 
+							<li><a href=<%=raw "\"#{idea_path(bb)}\""%> style:'display: inline'><%= i.name %>	</a>
+							<%= link_to idea_thumbs_up_path(idea_id: i.id, user_id: current_user.id), method: 'post', class: "btn  btn-default btn-sm", style: "display: inline;" do%>			
+								<span class='glyphicon glyphicon-thumbs-up'> <%=i.votes_for%> </span> 
 							<%end%>						 
-							<%= button_to '#', class:"btn  btn-default btn-sm pull-right"	do%>
-								<span class='glyphicon glyphicon-thumbs-up '> 42 </span> 
-							<%end%>
-							<%= i.name %></a>	
+							<%= link_to idea_thumbs_down_path(idea_id: i.id, user_id: current_user.id), method: 'post', class: "btn  btn-default btn-sm", style: "display: inline;" do%>	
+								<span class='glyphicon glyphicon-thumbs-down'> <%=i.votes_against%> </span> 
+							<%end%>	
 							</li>
 						<% end %>
 						</ul>

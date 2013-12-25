@@ -11,6 +11,9 @@ class User < ActiveRecord::Base
 	# 	
  	belongs_to :account, foreign_key: 'account_id'
 
+ 	# Thumbsup Gem 
+ 	acts_as_voter
+
 	#
 	# Devise configuration   (Include default devise modules. Others available are:
  	# 					:confirmable, :lockable, :timeoutable, :omniauthable and :validatable)
