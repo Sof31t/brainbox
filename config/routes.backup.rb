@@ -1,6 +1,8 @@
 Timetracker::Application.routes.draw do
 	
 
+	
+
 #Routes dans le cas de la page d'accueil sans sous-domaine
 	constraints(NoSubdomainRoute) do
 		match '/signup', to: 'accounts#new', via: 'get'
@@ -20,22 +22,16 @@ Timetracker::Application.routes.draw do
 			match '/add_user', to: 'accounts#add_user', via: 'post'
 			match '/add_bb', to: 'accounts#add_bb', via: 'post'
 			match '/add_idea', to: 'brainboxes#add_idea', via: 'post'
+			match '/idea/thumbs_up/a', to: 'ideas#add_thumbs_up', via: 'post'
+			match '/idea/thumbs_down/', to: 'ideas#add_thumbs_down', via: 'post'
+			#match '/delete_user', to: 'users#delete_user', via: 'delete'
+			#match '/delete_brainbox', to: 'brainboxes#delete_brainbox', via: 'delete'
 		end	
 		#match '/accounts/:id', to: 'accounts#new', via: 'get'
-		resources :accounts,  only: [:index, :new, :create, :show] do
-			resources :users,  only: [:destroy]
-			resources :brainboxes,  only: [:destroy]
-		end
-
-		resources :brainboxes,  only: [:destroy] do 
-			resources :ideas,  only: [:show] 
-		end
-
-		resources :ideas,  only: [:show] do
-				post 'thumbs_up', on: :member
-				post 'thumbs_down', on: :member
-		end
-
+		resources :accounts,  only: [:index, :new, :create, :show] 
+		resources :users,  only: [:destroy]
+		resources :brainboxes,  only: [:destroy]
+		resources :ideas,  only: [:show]
 	end
 
  

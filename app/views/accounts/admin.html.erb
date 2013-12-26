@@ -50,7 +50,8 @@
 			  			<%= u.email %>  
 			  			<% if u.role=='user' %>
 			  				<div style="float:right;">
-			  					<%= button_to "Supprimer", u, :method=>:delete , :class=>:delete_user,  class: "pull-right" %>
+			  					<%= button_to "Supprimer", account_user_path(:id=>u.id, :account_id=>u.account_id), 
+                                method: :delete, data: { confirm: "Etes vous sur?" }, class: "pull-right" %>
 			  				</div>
 			  			<%else%>
 			  				<span class='pull-right'> Administrateur </span>
@@ -67,7 +68,8 @@
 			  			<span class= " glyphicon glyphicon-inbox"></span>
 			  			<%= bb.name %>
 			  			<div style="float:right;">
-			  					<%= button_to "Supprimer", bb, :method=>:delete , :class=>:delete_brainbox,  class: "pull-right" %>
+			  					<%= button_to "Supprimer", account_brainbox_path(:id=>bb.id, :account_id=>bb.account_id), 
+                                method: :delete, data: { confirm: "Etes vous sur ?" }, class: "pull-right" %>
 			  			</div>	  					
 			  		</li>
 			 	<% end %>

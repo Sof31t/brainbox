@@ -10,17 +10,31 @@ class IdeasController < ApplicationController
  		 #Supprimer les idées
 	end
 
-	def add_thumbs_up
-		@idea = Idea.where(id=params[:idea_id]).take
-		@user = User.where(id=params[:user_id]).take
-		@user.vote_for(@idea);
+	def thumbs_up
+		@idea = Idea.where(:id=> params[:id]).take
+		if current_user.voted_for?(@idea) 
+			current_user.unvote_for(@idea)
+		elsif current_user.voted_against?(@idea)
+			current_user.unvote_for(@idea)
+			current_user.vote_for(@idea)
+		else 
+			current_user.vote_for(@idea)
+		end
+
 		redirect_to root_path
 	end
 
-	def add_thumbs_down
-		@idea = Idea.where(id=params[:idea_id]).take
-		@user = User.where(id=params[:user_id]).take
-		@user.vote_against(@idea);
+	def thumbs_down
+		@idea = Idea.where(:id => params[:id]).take
+		if current_user.voted_against?(@idea)
+			current_user.unvote_for(@idea)
+		elsif current_user.voted_for?(@idea)
+			current_user.unvote_for(@idea)
+			current_user.vote_against(@idea)
+		else
+			current_user.vote_against(@idea)
+		end	
+
 		redirect_to root_path
 	end
 
