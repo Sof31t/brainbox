@@ -1,4 +1,8 @@
 <div class='container'>
+	<div class='row' style="padding-bottom: 40px;">
+		<h1 style="text-align:center"> Page administrateur </h1>
+	</div>
+
 	<div class='row'>
 
 		<div class="col-md-4 col-md-offset-0 panel panel-default" >
@@ -77,10 +81,11 @@
 		</div>
 
 	</div>
-<div class="row">
+
+<div class="row" style="padding-top:20px;">
 
           <div class="col-lg-2 col-lg-offset-1">
-            <div class="panel panel-info">
+            <div class="panel panel-success">
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
@@ -136,10 +141,10 @@
                 <div class="row">
                   <div class="col-xs-6">
                     <h1> <% ideas=0
-                    		@bbs.each do |bb|
-                    			ideas += bb.ideas.size
-                    		end
-                    	%>
+                        		@bbs.each do |bb|
+                        			ideas += bb.ideas.size
+                        		end
+                    	   %>
                     	<%= ideas %> </h1>
                   </div>
                   <div class="col-xs-6 text-right">                  	
@@ -154,6 +159,73 @@
                     </div>
                     <div class="col-xs-6 text-right">
                       <span class="glyphicon glyphicon-pushpin"></span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+
+          <div class="col-lg-2 col-lg-offset-3">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <h1> <%  thumbs_up=0;
+                             @bbs.each do |bb|
+                              bb.ideas.each do |i| 
+                                thumbs_up += i.votes_for
+                              end
+                            end
+                         %>
+                      <%= thumbs_up%> </h1>
+                  </div>
+                  <div class="col-xs-6 text-right">                   
+                  </div>
+                </div>
+              </div>
+              <a href="#">
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      Thumbs Up
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <span class="glyphicon glyphicon-thumbs-up"></span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-lg-offset-2">
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <h1> <%  thumbs_down=0;
+                             @bbs.each do |bb|
+                              bb.ideas.each do |i| 
+                                thumbs_down += i.votes_against
+                              end
+                            end
+                         %>
+                      <%= thumbs_down%> </h1>
+                  </div>
+                  <div class="col-xs-6 text-right">                   
+                  </div>
+                </div>
+              </div>
+              <a href="#">
+                <div class="panel-footer announcement-bottom">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      Thumbs Down
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <span class="glyphicon glyphicon-thumbs-down"></span>
                     </div>
                   </div>
                 </div>
