@@ -25,18 +25,18 @@
 					<div class='panel-body'>
 						<ul class='nav nav-pills nav-stacked'>
 						<% bb.ideas.each do |i| %>
-							<li> <ul class='btn-group' > 
+							<li> <ul class='btn-group' style='width:100%'> 
 								<li style="display:inline;"> <%=link_to brainbox_idea_path(brainbox_id: bb.id, id: i.id), method: :get do %>
-									<h2 style="margin:0px;"> <%= i.name %>	 </h2>			
+									<h2 style="display: inline; "><%= i.name %></h2>			
 									<%end%>	 </li>										
-								<li style="display:inline;"> <%= link_to thumbs_up_idea_path(i.id),  params: { id: i.id }.to_param, method: :post, class: "btn  btn-default btn-sm" do%>			
+								<li style="display:inline;"> <%= link_to thumbs_up_idea_path(i.id),  params: { id: i.id }.to_param, method: :post, class: "btn  btn-default btn-sm pull-right" do%>			
 									<% if current_user.voted_for?(i) %>
 										<span class='glyphicon glyphicon-thumbs-up text-primary'> <%=i.votes_for%> </span> 
 									<% else %>
 										<span class='glyphicon glyphicon-thumbs-up'> <%=i.votes_for%> </span> 
 									<% end %>
-								<%end%>	 </li>									 
-								<li style="display:inline;"> <%= link_to thumbs_down_idea_path(i.id), method: 'post', class: "btn  btn-default btn-sm" do%>	
+								<%end%>	 									 
+								 <%= link_to thumbs_down_idea_path(i.id), method: 'post', class: "btn  btn-default btn-sm pull-right" do%>	
 									<% if current_user.voted_against?(i) %>
 										<span class='glyphicon glyphicon-thumbs-down text-primary'> <%=i.votes_against%> </span> 
 									<% else %>
@@ -55,9 +55,12 @@
 					</div>
 				</div>
 			</div> 
+			<%end%>
 		</div> <!-- panel group -->
 
+		
 
+		<% @bbs.each do |bb| %>
 			<!-- Modal -->
 		<div class="modal fade" id=<%=raw "\"modal#{bb.id}\""%> tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			 <div class="modal-dialog">
