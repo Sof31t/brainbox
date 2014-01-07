@@ -26,9 +26,15 @@ class AccountsController < ApplicationController
 	def create	
 		parameters = account_params
 		@account = Account.new(parameters)
-		@account.create_owner(parameters[:owner_attributes])
-		if @account.save		
-			redirect_to root_path, notice: "Signed up successfully ! Go on #{parameters[:subdomain]}.brainbox.dev to sign-in your new BrainBox !"
+		@account.build_owner(parameters[:owner_attributes])
+		# essaye avec build_owner puis save aprés la sauvegarde l'account
+		if @account.save	
+			#if 	@account.create_owner(parameters[:owner_attributes])
+				redirect_to root_path, notice: "Signed up successfully ! Go on #{parameters[:subdomain]}.brainbox.dev to sign-in your new BrainBox !"
+			#else
+			# 	@account.destroy
+			#	render action: 'new'
+			#end
 		else
 			render action: 'new'
 		end
@@ -55,6 +61,18 @@ class AccountsController < ApplicationController
 		@bb = @current_account.brainboxes.build
 		#Liste des bbs
 		@bbs = Brainbox.where(account_id: @current_account.id).all		
+		#Nombre d'idées totales du compte, de thumbs up et down totaux
+		@ideas=0
+		@thumbs_up=0
+        @thumbs_down=0
+        @bbs.each do |bb|
+            @ideas += bb.ideas.size
+            bb.ideas.each do |i| 
+	      	 	@thumbs_up += i.votes_for
+	        	@thumbs_down += i.votes_against
+	    	 end
+        end
+
 	end
 
 	def add_user		

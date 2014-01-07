@@ -140,12 +140,8 @@
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
-                    <h1> <% ideas=0
-                        		@bbs.each do |bb|
-                        			ideas += bb.ideas.size
-                        		end
-                    	   %>
-                    	<%= ideas %> </h1>
+                    <h1> 
+                    	<%= @ideas %> </h1>
                   </div>
                   <div class="col-xs-6 text-right">                  	
                   </div>
@@ -172,14 +168,8 @@
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
-                    <h1> <%  thumbs_up=0;
-                             @bbs.each do |bb|
-                              bb.ideas.each do |i| 
-                                thumbs_up += i.votes_for
-                              end
-                            end
-                         %>
-                      <%= thumbs_up%> </h1>
+                    <h1>
+                      <%= @thumbs_up%> </h1>
                   </div>
                   <div class="col-xs-6 text-right">                   
                   </div>
@@ -205,14 +195,8 @@
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-6">
-                    <h1> <%  thumbs_down=0;
-                             @bbs.each do |bb|
-                              bb.ideas.each do |i| 
-                                thumbs_down += i.votes_against
-                              end
-                            end
-                         %>
-                      <%= thumbs_down%> </h1>
+                    <h1>
+                      <%= @thumbs_down%> </h1>
                   </div>
                   <div class="col-xs-6 text-right">                   
                   </div>
