@@ -55,12 +55,12 @@ class AccountsController < ApplicationController
 		@user = User.new		
 		@user = @current_account.users.build
 		#Liste des users
-		@users = User.where(account_id: @current_account.id).all
+		@users = User.where(account_id: @current_account.id).paginate(page: params[:users_page], :per_page => 5)
 		#BB form
 		@bb = Brainbox.new
 		@bb = @current_account.brainboxes.build
 		#Liste des bbs
-		@bbs = Brainbox.where(account_id: @current_account.id).all		
+		@bbs = Brainbox.where(account_id: @current_account.id).paginate(page: params[:bbs_page], :per_page => 5)		
 		#Nombre d'idées totales du compte, de thumbs up et down totaux
 		@ideas=0
 		@thumbs_up=0
@@ -75,25 +75,35 @@ class AccountsController < ApplicationController
 
 	end
 
-	def add_user		
-		@current_account.users.build(user_params)
-		if @current_account.save
-			redirect_to admin_path , notice: "Utilisateur créé"
+	def add_user	
+		if @current_account.users.size < @current_account.users_max	
+			@current_account.users.build(user_params)
+			if @current_account.save
+				redirect_to admin_path , notice: "Utilisateur créé"
+			else
+				redirect_to admin_path, alert: "Erreur lors de la création de l'utilisateur"
+				#flash[:errors]=@current_account.errors
+				#render action: 'adm'
+			end
 		else
-			redirect_to admin_path, alert: "Erreur lors de la création de l'utilisateur"
-			#flash[:errors]=@current_account.errors
-			#render action: 'adm'
+			redirect_to admin_path, alert: "Nombre maximal d'utilisateurs atteint pour un compte #{@current_account.subscription_type}"
 		end
+
 	end
 
 	def add_bb
-		@bb = @current_account.brainboxes.build(bb_params)
-		if @current_account.save
-			redirect_to admin_path, notice: "BrainBox créée"
+		if @current_account.brainboxes.size < @current_account.bbs_max
+			@bb = @current_account.brainboxes.build(bb_params)
+			if @current_account.save
+				redirect_to admin_path, notice: "BrainBox créée"
+			else
+				redirect_to admin_path, alert: "Erreur lors de la création de la BrainBox"
+			end	
 		else
-			redirect_to admin_path, alert: "Erreur lors de la création de la BrainBox"
-		end	
+			redirect_to admin_path, alert: "Nombre maximal de Brainboxes atteint pour un compte #{@current_account.subscription_type}"
+		end
 	end
+
 
 	private 
 		def account_params

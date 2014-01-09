@@ -43,7 +43,23 @@ class Account < ActiveRecord::Base
 	accepts_nested_attributes_for :owner
 	accepts_nested_attributes_for :users
 
+	def bbs_max
+		return 1 if self.subscription_type=="free"
+		return 5 if self.subscription_type=="basic"
+		return 10 if self.subscription_type=="premium"
+	end
 
+	def ideas_max
+		return 5 if self.subscription_type=="free"
+		return 10 if self.subscription_type=="basic"
+		return 15 if self.subscription_type=="premium"
+	end
+
+	def users_max
+		return 5 if self.subscription_type=='free'
+		return 10 if self.subscription_type=='basic'
+		return 15 if self.subscription_type=='premium'
+	end
 
 private
 	def downcase_subdomain

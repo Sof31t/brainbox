@@ -14,6 +14,9 @@ gem 'anjlab-bootstrap-rails', '~> 3.0.0', :require => 'bootstrap-rails'
 gem 'thumbs_up'
 gem 'pry'
 
+gem 'will_paginate', '3.0.4'
+gem 'will_paginate-bootstrap'
+
 group :development, :test do
   	gem 'sqlite3', '1.3.8'
 	gem 'guard'
