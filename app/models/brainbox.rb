@@ -6,6 +6,10 @@ class Brainbox < ActiveRecord::Base
 	belongs_to :account
 	has_many :ideas
 
+	 	
+ 	# Paranoid Gem
+ 	acts_as_paranoid
+
 	#
 	# => Validations
 	#
@@ -14,5 +18,16 @@ class Brainbox < ActiveRecord::Base
   										:case_sensitive => false
 	validates :descr, presence: true
 
+ 	def cost(month, year)
+ 		date = Date.new(year, month, 01)
+ 		ppm = 10.0
+ 		if (self.created_at.year > year) || (self.created_at.year== year && self.created_at.month>month) #si l'utilisateur a été créé aprés le month/year son cout est nul pr ce mois
+ 			return 0
+ 		elsif (self.created_at.year < year) || (self.created_at.year==year && self.created_at.month<month)  #si l'utilisateur a été créé avant month son cout est ppm
+ 			return ppm #pri
+ 		elsif (self.created_at.month == month && self.created_at.year == year) #si l'utilisateur a été créé au cours de ce mois son cout est ppm au prorata
+ 			return ppm*((date.end_of_month.day.to_f - self.created_at.day.to_f)/ date.end_of_month.day)
+ 		end
+ 	end	
 
 end

@@ -3,6 +3,7 @@ class BrainboxesController < ApplicationController
 	def destroy
 		 @deleted_bb = Brainbox.find(params[:id])
  		 @deleted_bb.destroy
+
  		 redirect_to admin_path, notice: "Brainbox supprimée!"
  		 #Supprimer les idées
 	end

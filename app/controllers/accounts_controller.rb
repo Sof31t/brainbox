@@ -54,13 +54,19 @@ class AccountsController < ApplicationController
 		#User form
 		@user = User.new		
 		@user = @current_account.users.build
-		#Liste des users
+		#Liste des users paginée
 		@users = User.where(account_id: @current_account.id).paginate(page: params[:users_page], :per_page => 5)
+		#Liste de tous les users
+		@all_users = User.where(account_id: @current_account.id)
+		#Liste des users supprimés
+		@deleted_users = User.where(account_id: @current_account.id).only_deleted
 		#BB form
 		@bb = Brainbox.new
 		@bb = @current_account.brainboxes.build
-		#Liste des bbs
-		@bbs = Brainbox.where(account_id: @current_account.id).paginate(page: params[:bbs_page], :per_page => 5)		
+		#Liste des bbs paginée
+		@bbs = Brainbox.where(account_id: @current_account.id).paginate(page: params[:bbs_page], :per_page => 5)
+		#Liste de toutes les bbs
+		@all_bbs = Brainbox.where(account_id: @current_account.id)	
 		#Nombre d'idées totales du compte, de thumbs up et down totaux
 		@ideas=0
 		@thumbs_up=0
@@ -76,7 +82,7 @@ class AccountsController < ApplicationController
 	end
 
 	def add_user	
-		if @current_account.users.size < @current_account.users_max	
+		if @current_account.users.size < @current_account.users_max	|| @current_account.subscription_type == 'payasyougo'
 			@current_account.users.build(user_params)
 			if @current_account.save
 				redirect_to admin_path , notice: "Utilisateur créé"
@@ -92,7 +98,7 @@ class AccountsController < ApplicationController
 	end
 
 	def add_bb
-		if @current_account.brainboxes.size < @current_account.bbs_max
+		if @current_account.brainboxes.size < @current_account.bbs_max || @current_account.subscription_type == 'payasyougo'
 			@bb = @current_account.brainboxes.build(bb_params)
 			if @current_account.save
 				redirect_to admin_path, notice: "BrainBox créée"

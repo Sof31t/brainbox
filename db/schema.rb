@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131225095111) do
+ActiveRecord::Schema.define(version: 20140111184432) do
 
   create_table "accounts", force: true do |t|
     t.string   "subdomain"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20131225095111) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "account_id"
+    t.datetime "deleted_at"
   end
 
   create_table "ideas", force: true do |t|
@@ -48,6 +49,7 @@ ActiveRecord::Schema.define(version: 20131225095111) do
     t.datetime "updated_at"
     t.string   "role"
     t.integer  "account_id"
+    t.datetime "deleted_at"
   end
 
   add_index "users", ["email", "account_id"], name: "email_account_id_couple_index", unique: true

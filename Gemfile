@@ -17,6 +17,9 @@ gem 'pry'
 gem 'will_paginate', '3.0.4'
 gem 'will_paginate-bootstrap'
 
+gem 'paranoia', '~> 2.0'
+gem 'groupdate'
+
 group :development, :test do
   	gem 'sqlite3', '1.3.8'
 	gem 'guard'

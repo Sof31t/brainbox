@@ -5,7 +5,7 @@ class Account < ActiveRecord::Base
 	#
 
 	RESTRICTED_SUBDOMAINS = %w(www)
-	SUBSCRIPTION_TYPES = %w(free basic premium)
+	SUBSCRIPTION_TYPES = %w(free basic premium payasyougo)
 
 	#
 	# Associations
@@ -47,19 +47,33 @@ class Account < ActiveRecord::Base
 		return 1 if self.subscription_type=="free"
 		return 5 if self.subscription_type=="basic"
 		return 10 if self.subscription_type=="premium"
+		return -1 if self.subscription_type=='payasyougo'
 	end
 
 	def ideas_max
 		return 5 if self.subscription_type=="free"
 		return 10 if self.subscription_type=="basic"
 		return 15 if self.subscription_type=="premium"
+		return -1 if self.subscription_type=='payasyougo'
 	end
 
 	def users_max
 		return 5 if self.subscription_type=='free'
 		return 10 if self.subscription_type=='basic'
 		return 15 if self.subscription_type=='premium'
+		return -1 if self.subscription_type=='payasyougo'
 	end
+
+	def cost(month, year)
+		cout = 0
+		self.brainboxes.each do |bb|
+			cout+= bb.cost(month, year).round(2)
+		end
+		self.users.each do |user|
+			cout+= user.cost(month, year).round(2)
+		end
+		return cout
+	end 
 
 private
 	def downcase_subdomain

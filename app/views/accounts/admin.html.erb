@@ -1,18 +1,22 @@
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "admin.js" %>
+<% end %>
+
 <div class='container'>
 
-    <div class='row'>
+	<div class='row' style="padding-bottom: 10px;">
+    <div class="alert alert-info" style="text-align:center;"> <h3> Compte <%=current_user.account.subscription_type.capitalize %></h3></div>
+	</div>
+  <div class='row'>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" >
       <li><a href="#admin" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span> Administration</a></li>
       <li><a href="#monitoring" data-toggle="tab"><span class="glyphicon glyphicon-stats"></span> Monitoring 
  </a></li>
+ <li><a href="#facture" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span> Facture</a></li>
     </ul>
   </div>
 
-<!-- 	<div class='row' style="padding-bottom: 10px;">
-    <div class="alert alert-info" style="text-align:center;"> <h3> Compte <%=current_user.account.subscription_type.capitalize %></h3></div>
-	</div>
- -->
 <div class="tab-content" >
 
   <div class="tab-pane " id="admin">
@@ -78,14 +82,14 @@
             <li>
               <a href="#">
                 <span class="glyphicon glyphicon-user"></span> 
-                <span class="badge pull-right"><%= current_user.account.users.size %> / <%= current_user.account.users_max %></span>
+                <span class="badge pull-right"><%= current_user.account.users.size %>  <%= raw "/ #{current_user.account.users_max}" if current_user.account.subscription_type != 'payasyougo' %></span>
                 Utilisateurs
               </a>
             </li>
              <li>
               <a href="#">
                 <span class="glyphicon glyphicon-list"></span>
-                <span class="badge pull-right"><%= current_user.account.brainboxes.size %> / <%= current_user.account.bbs_max%> </span>
+                <span class="badge pull-right"><%= current_user.account.brainboxes.size %> <%= raw "/ #{current_user.account.bbs_max}" if current_user.account.subscription_type != 'payasyougo' %> </span>
                 Brainboxes
               </a>
             </li>
@@ -160,7 +164,47 @@
       </div>
 
     </div><!-- /.row -->
+   </div> <!-- monitoring panel -->
 
-   </div>
+  <div class="tab-pane " id="facture">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-0 panel panel-default" >
+        <div class="panel-body">
+          <h3> Utilisateurs </h3>
+          <ul class="nav nav-pills nav-stacked">            
+          <% @all_users.each do |user| %>
+                <li>                
+                <span class="badge pull-right"><%= user.cost(Date.today.month,Date.today.year).round(2) %></span>
+                <%= user.name %>                 
+               </li>
+          <% end %>
+          </ul>
+          <hr>
+          <h3> Utilisateurs supprimés au cours du mois</h3>
+          <ul class="nav nav-pills nav-stacked">            
+          <% @deleted_users.each do |user| %>
+                <li>                
+                <span class="badge pull-right"><%= user.cost(Date.today.month,Date.today.year).round(2) %></span>
+                <%= user.name %>                 
+               </li>
+          <% end %>
+          </ul>
+          <hr>
+        <h3> Brainboxes </h3>
+        <ul class="nav nav-pills nav-stacked">            
+          <% @all_bbs.each do |bb| %>
+                <li>                
+                <span class="badge pull-right"><%= bb.cost(Date.today.month,Date.today.year).round(2) %></span>
+                <%= bb.name %> 
+               </li>
+          <% end %>
+        </ul>
+        <hr>
+        <h3> Total <span class="badge pull-right"><%= current_user.account.cost(Date.today.month, Date.today.year).round(2) %></span></h3>        
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 </div>
