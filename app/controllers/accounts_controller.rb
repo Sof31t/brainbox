@@ -67,6 +67,8 @@ class AccountsController < ApplicationController
 		@bbs = Brainbox.where(account_id: @current_account.id).paginate(page: params[:bbs_page], :per_page => 5)
 		#Liste de toutes les bbs
 		@all_bbs = Brainbox.where(account_id: @current_account.id)	
+		#Liste des bbs supprimés
+		@deleted_bbs = Brainbox.where(account_id: @current_account.id).only_deleted
 		#Nombre d'idées totales du compte, de thumbs up et down totaux
 		@ideas=0
 		@thumbs_up=0

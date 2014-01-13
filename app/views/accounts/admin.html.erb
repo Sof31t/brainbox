@@ -13,7 +13,9 @@
       <li><a href="#admin" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span> Administration</a></li>
       <li><a href="#monitoring" data-toggle="tab"><span class="glyphicon glyphicon-stats"></span> Monitoring 
  </a></li>
- <li><a href="#facture" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span> Facture</a></li>
+    <% if current_user.account.subscription_type=='payasyougo' %>
+     <li><a href="#facture" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span> Facture</a></li>
+     <% end %>
     </ul>
   </div>
 
@@ -166,37 +168,61 @@
     </div><!-- /.row -->
    </div> <!-- monitoring panel -->
 
+   <% if current_user.account.subscription_type=='payasyougo' %>
   <div class="tab-pane " id="facture">
     <div class="row">
       <div class="col-md-6 col-md-offset-0 panel panel-default" >
         <div class="panel-body">
+           <hr>
           <h3> Utilisateurs </h3>
+           <hr>
           <ul class="nav nav-pills nav-stacked">            
           <% @all_users.each do |user| %>
+                <%  if user.cost(Date.today.month,Date.today.year)!= 0 %>
                 <li>                
                 <span class="badge pull-right"><%= user.cost(Date.today.month,Date.today.year).round(2) %></span>
                 <%= user.name %>                 
                </li>
+              <% end %>
           <% end %>
           </ul>
           <hr>
           <h3> Utilisateurs supprimés au cours du mois</h3>
+           <hr>
           <ul class="nav nav-pills nav-stacked">            
           <% @deleted_users.each do |user| %>
+              <% if user.cost(Date.today.month,Date.today.year)!= 0 %>
                 <li>                
                 <span class="badge pull-right"><%= user.cost(Date.today.month,Date.today.year).round(2) %></span>
                 <%= user.name %>                 
                </li>
+              <% end %>
           <% end %>
           </ul>
           <hr>
         <h3> Brainboxes </h3>
+         <hr>
         <ul class="nav nav-pills nav-stacked">            
           <% @all_bbs.each do |bb| %>
+              <% if bb.cost(Date.today.month,Date.today.year)!= 0 %>
                 <li>                
                 <span class="badge pull-right"><%= bb.cost(Date.today.month,Date.today.year).round(2) %></span>
                 <%= bb.name %> 
                </li>
+              <% end %>
+          <% end %>
+        </ul>
+        <hr>
+        <h3> Brainboxes supprimées au cours du mois </h3>
+         <hr>
+        <ul class="nav nav-pills nav-stacked">            
+          <% @deleted_bbs.each do |bb| %>
+                <% if bb.cost(Date.today.month,Date.today.year)!= 0 %>
+                  <li>                
+                  <span class="badge pull-right"><%= bb.cost(Date.today.month,Date.today.year).round(2) %></span>
+                  <%= bb.name %> 
+                 </li>
+               <% end %>
           <% end %>
         </ul>
         <hr>
@@ -205,6 +231,6 @@
       </div>
     </div>
   </div>
-
+  <% end %>
 
 </div>

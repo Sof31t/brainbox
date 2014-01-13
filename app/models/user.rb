@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
 	 			end
 	 		elsif  (self.deleted_at.month==month && self.deleted_at.year==year)
 	 			if (self.created_at.year<year) || (self.created_at.year==year && self.created_at.month<month)  #si l'utilisateur a été créé avant month son cout est ppm
-		 			return ppm*((self.deleted_at.day.to_f - date.beginning_of_month.day.to_f)/date.end_of_month.day) #pri
+		 			return ppm*((self.deleted_at.day.to_f)/date.end_of_month.day) #pri
 		 		elsif (self.created_at.month == month && self.created_at.year == year) #si l'utilisateur a été créé au cours de ce mois son cout est ppm au prorata
 		 			return ppm*((self.deleted_at.day.to_f - self.created_at.day.to_f)/ date.end_of_month.day)
 		 		end

@@ -66,10 +66,10 @@ class Account < ActiveRecord::Base
 
 	def cost(month, year)
 		cout = 0
-		self.brainboxes.each do |bb|
+		self.brainboxes.with_deleted.each do |bb|
 			cout+= bb.cost(month, year).round(2)
 		end
-		self.users.each do |user|
+		self.users.with_deleted.each do |user|
 			cout+= user.cost(month, year).round(2)
 		end
 		return cout
