@@ -9,13 +9,16 @@ class Brainbox < ActiveRecord::Base
 	 	
  	# Paranoid Gem
  	acts_as_paranoid
+ 	#validates_as_paranoid
 
 	#
 	# => Validations
 	#
 	validates :name, presence: true
-	validates_uniqueness_of :name,	 	:scope => :account_id,
-  										:case_sensitive => false
+ # validates_uniqueness_of_without_deleted :name, :scope=> :account_id, :case_sensitive => false
+ 	validates :name, :uniqueness_without_deleted => {:scope => :account_id, :case_sensitive => false}
+#	validates_uniqueness_of :name, 	:scope => :account_id,
+ #										:case_sensitive => false, :uniqueness_without_deleted => true
 	validates :descr, presence: true
 
  	def cost(month, year)

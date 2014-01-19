@@ -20,6 +20,8 @@ Timetracker::Application.routes.draw do
 			match '/add_user', to: 'accounts#add_user', via: 'post'
 			match '/add_bb', to: 'accounts#add_bb', via: 'post'
 			match '/add_idea', to: 'brainboxes#add_idea', via: 'post'
+			match '/facture', to: 'accounts#facture', via: 'post'
+			match '/change_subscription_type', to: 'accounts#change_subscription_type', via: 'post'
 		end	
 		#match '/accounts/:id', to: 'accounts#new', via: 'get'
 		resources :accounts,  only: [:index, :new, :create, :show] do

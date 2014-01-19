@@ -9,7 +9,7 @@ class AccountsController < ApplicationController
 	before_filter :authenticate_user!, except: [:new, :create]
 	authorize_resource :only => [:admin, :add_user, :remove_user]
 
-	before_filter :get_current_account, :only =>[:show, :admin, :add_user, :add_bb]
+	before_filter :get_current_account, :only =>[:show, :admin, :add_user, :add_bb, :facture, :change_subscription_type]
 
 
 	def get_current_account
@@ -51,6 +51,7 @@ class AccountsController < ApplicationController
 	end
 	
 	def admin
+		@account = Account.new
 		#User form
 		@user = User.new		
 		@user = @current_account.users.build
@@ -87,6 +88,10 @@ class AccountsController < ApplicationController
 		if @current_account.users.size < @current_account.users_max	|| @current_account.subscription_type == 'payasyougo'
 			@current_account.users.build(user_params)
 			if @current_account.save
+				if @current_account.users.size >= @current_account.users_max - 2
+						Emailer.max_users(@current_account.owner).deliver if @current_account.users.size == @current_account.users_max
+						Emailer.warning_users(@current_account.owner).deliver if @current_account.users.size < @current_account.users_max
+				end
 				redirect_to admin_path , notice: "Utilisateur créé"
 			else
 				redirect_to admin_path, alert: "Erreur lors de la création de l'utilisateur"
@@ -103,12 +108,38 @@ class AccountsController < ApplicationController
 		if @current_account.brainboxes.size < @current_account.bbs_max || @current_account.subscription_type == 'payasyougo'
 			@bb = @current_account.brainboxes.build(bb_params)
 			if @current_account.save
+				if @current_account.brainboxes.size >= @current_account.bbs_max - 2
+						Emailer.max_bbs(@current_account.owner).deliver if @current_account.brainboxes.size == @current_account.bbs_max
+						Emailer.warning_bbs(@current_account.owner).deliver if @current_account.brainboxes.size < @current_account.bbs_max
+				end
 				redirect_to admin_path, notice: "BrainBox créée"
 			else
 				redirect_to admin_path, alert: "Erreur lors de la création de la BrainBox"
 			end	
 		else
 			redirect_to admin_path, alert: "Nombre maximal de Brainboxes atteint pour un compte #{@current_account.subscription_type}"
+		end
+	end
+
+	def facture
+		@month = params[:date][:month]
+		@year = params[:date][:year]
+		@all_users = User.where(account_id: @current_account.id)
+		@deleted_users = User.where(account_id: @current_account.id).only_deleted
+		@all_bbs = Brainbox.where(account_id: @current_account.id)	
+		@deleted_bbs = Brainbox.where(account_id: @current_account.id).only_deleted
+
+		respond_to do |format|   
+    		  format.js   {}    
+ 		 end
+	end
+
+	def change_subscription_type
+		@current_account.subscription_type = account_params[:subscription_type]
+		if @current_account.save
+			redirect_to admin_path, notice: "Changement de souscription effectuée. Vous disposez maintenant d'un compte #{@current_account.subscription_type.capitalize} ! "
+		else 
+			redirect_to admin_path, warning: "Erreur lors du changement de souscription"
 		end
 	end
 

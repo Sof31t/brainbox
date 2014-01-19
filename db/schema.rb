@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20140111184432) do
     t.datetime "deleted_at"
   end
 
-  add_index "users", ["email", "account_id"], name: "email_account_id_couple_index", unique: true
+  add_index "users", ["email", "account_id"], name: "email_account_id_couple_index"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   create_table "votes", force: true do |t|
