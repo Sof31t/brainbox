@@ -21,9 +21,10 @@ gem 'paranoia', '2.0'
 gem 'paranoia_uniqueness_validator'
 
 gem 'groupdate'
+gem 'sqlite3', '1.3.8'
 
 group :development, :test do
-  	gem 'sqlite3', '1.3.8'
+#	gem 'sqlite3', '1.3.8'
 	gem 'guard'
 	gem 'guard-livereload'
 	gem 'guard-rspec'
