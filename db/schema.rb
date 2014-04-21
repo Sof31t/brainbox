@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 20140111184432) do
     t.integer  "brainbox_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "thumbs_up"
+    t.integer  "thumbs_down"
     t.integer  "account_id"
   end
 

@@ -3,13 +3,13 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.0'
 gem 'cancan'
 
-gem 'sass-rails', '~> 4.0.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'sass-rails', '4.0.0'
+gem 'uglifier', '1.3.0'
+gem 'coffee-rails', '4.0.0'
 gem 'jquery-rails'
-gem 'devise', '~> 3.1.0'
+gem 'devise', '3.1.0'
 
-gem 'anjlab-bootstrap-rails', '~> 3.0.0', :require => 'bootstrap-rails'
+gem 'anjlab-bootstrap-rails', '3.0.0', :require => 'bootstrap-rails'
 
 gem 'thumbs_up'
 gem 'pry'
@@ -17,7 +17,7 @@ gem 'pry'
 gem 'will_paginate', '3.0.4'
 gem 'will_paginate-bootstrap'
 
-gem 'paranoia', '~> 2.0'
+gem 'paranoia', '2.0'
 gem 'paranoia_uniqueness_validator'
 
 gem 'groupdate'
